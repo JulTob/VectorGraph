@@ -241,9 +241,10 @@ class CIRCLE(SHAPE):
 		return string
 
 class POLYGON(SHAPE):
-	def __init__(polygon, points = [POINT(1,0), POINT(1,1), POINT(0,1), POINT(0,0)], color = 'black', stroke_width=3, classification = ''):
+	def __init__(polygon, points = [POINT(1,0), POINT(1,1), POINT(0,1), POINT(0,0)], color = 'white', stroke = 'black', stroke_width=3, classification = ''):
 		polygon.points = points
 		polygon.color = color
+		polygon.stroke = stroke
 		polygon.stroke_width = stroke_width
 		polygon.classification = classification
 
@@ -252,12 +253,24 @@ class POLYGON(SHAPE):
 		if polygon.classification: string += f"class = '{polygon.classification}' "
 		points_str = " ".join(f"{point.x},{point.y}" for point in polygon.points)
 		string += f"points = '{points_str}' "
+		if polygon.color:
+			string += f"fill = '{polygon.color}' "
+		if polygon.stroke:
+			string += f"stroke = '{polygon.stroke}' "
+		if polygon.stroke_width:
+			string += f"stroke-width = '{polygon.stroke_width}' "
+
 		string += " />"
 		return string
 
 	def cartesian(polygon,svg):
 		for point in polygon.points:
 			point.cartesian(svg)
+
+class TRIANGLE(POLYGON):
+	def __init__(triangle, p1 = POINT(0,0), p2 = POINT(0,4), p3 = POINT(3,0), color = 'black', stroke_width=3, classification = ''):
+		super().__init__( [p1,p2,p3], color, stroke, stroke_width, classification)
+
 
 class EDGE(POINT):
 	def __init__(point,x=0,y=0, mode = 'l', color = 'red', stroke = 'black', stroke_width = 1):
@@ -347,10 +360,10 @@ class SVG:
 
 
 		string  += f"width = '{svg.width}' "
-		string += f"height = '-{svg.height}' "
+		string += f"height = '{svg.height}' "
 
 		vb_x = svg.view_origin.x
-		vb_y = svg.view_end.y
+		vb_y = svg.view_origin.y
 		vb_width  = svg.view_end.x  - svg.view_origin.x
 		vb_height = svg.view_end.y - svg.view_origin.y
 
