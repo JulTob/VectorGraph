@@ -2,7 +2,7 @@
 from VectorGraph import SVG, POINT, CIRCLE, GROUP
 
 # Create the SVG canvas
-svg = SVG(width=300, height=200, view_origin=POINT(0, 0), view_end=POINT(300, 200))
+svg = SVG(width=310, height=210, view_origin=POINT(-5, -5), view_end=POINT(305, 205))
 
 # Define the group for the rings with shared properties
 rings_group = GROUP()
